@@ -1,0 +1,5 @@
+<h1>Edit Destination</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.destination_path(@conn, :update, @destination)) %>
+
+<span><%= link "Back", to: Routes.destination_path(@conn, :index) %></span>

@@ -1,0 +1,28 @@
+<h1>Listing Destinations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for destination <- @destinations do %>
+    <tr>
+      <td><%= destination.name %></td>
+      <td><%= destination.url %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.destination_path(@conn, :show, destination) %></span>
+        <span><%= link "Edit", to: Routes.destination_path(@conn, :edit, destination) %></span>
+        <span><%= link "Delete", to: Routes.destination_path(@conn, :delete, destination), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Destination", to: Routes.destination_path(@conn, :new) %></span>

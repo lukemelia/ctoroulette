@@ -1,0 +1,18 @@
+<h1>Show Destination</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @destination.name %>
+  </li>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @destination.url %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.destination_path(@conn, :edit, @destination) %></span>
+<span><%= link "Back", to: Routes.destination_path(@conn, :index) %></span>

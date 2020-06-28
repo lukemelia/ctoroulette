@@ -1,0 +1,115 @@
+<style>
+<%
+  colors = ["#16a085", "#2980b9", "#34495e", "#f39c12", "#d35400", "#c0392b", "#800080"]
+  destination_count = Enum.count(@destinations)
+  angle_degrees = 360 / destination_count
+  angle_radians = angle_degrees * :math.pi / 180
+  diameter = 550
+  triangle_height = (diameter / 2) + 20
+  triangle_width = 2 * triangle_height * :math.tan(angle_radians * 0.5)
+  left_offset = (diameter/2 - triangle_width / 2) - (diameter * 0.016)
+  top_offset = diameter - (triangle_height * 2) + (diameter * 0.024)
+%>
+
+h1 {
+  margin-top: 40px;
+  text-align: center;
+}
+#wrapper {
+	width:<%= diameter + 16 %>px;
+}
+
+#wheel, #shine {
+	width:<%= diameter %>px;
+	height:<%= diameter %>px;
+}
+
+#spin {
+	width:<%= diameter * 0.25 %>px;
+	height:<%= diameter * 0.25 %>px;
+	margin:-<%= diameter * 0.25 / 2%>px 0 0 -<%= diameter * 0.25 / 2 %>px;
+}
+
+#spin:after{
+	line-height:<%= diameter * 0.25 %>px;
+	width:<%= diameter * 0.25 %>px;
+  height: <%= diameter * 0.08 %>px;
+  position: absolute;
+  bottom: <%= diameter * 0.105 %>px;
+}
+
+#spin:before{
+	border-width: 0 <%= diameter * 0.1 %>px <%= diameter * 0.16 %>px <%= diameter * 0.1 %>px;
+	top:-<%= diameter * 0.05 %>px;
+	left:<%= diameter * 0.03 %>px;
+}
+
+#inner-spin{
+	width:<%= diameter * 0.2 %>px;
+	height:<%= diameter * 0.2 %>px;
+  bottom: 0;
+	margin:-<%= diameter * 0.2 / 2 %>px 0 0 -<%= diameter * 0.2 / 2 %>px;
+}
+
+#wheel div.sec{
+	border-width: <%= triangle_height %>px <%= triangle_width / 2 %>px 0;
+	border-color: #19c transparent;
+	transform-origin: <%= triangle_width / 2 %>px <%= triangle_height %>px;
+	left:<%= left_offset %>px;
+	top:<%= top_offset %>px;	
+}
+
+#wheel div.sec span{
+	margin-top: -<%= diameter * 0.4 %>px;
+	font-size:<%= diameter * 0.12 %>px;
+	margin-left:-<%= diameter * 0.045 %>px;
+}
+
+<%= for {destination, i} <- Enum.with_index(@destinations) do %>
+
+#wheel div.sec:nth-child(<%= i + 1 %>){ /* <%= destination.name %> */
+	transform: rotate(<%= (360/destination_count) * i %>deg);
+	border-color: <%= Enum.at(colors, i) %> transparent;	
+}
+<% end %>
+</style>
+
+<script>
+<%
+  center_of_destination = ((Enum.reverse(@destinations) |> Enum.find_index(fn(x) -> x == @destination end)) + 1) * angle_degrees
+  random_offset = (:rand.uniform() * angle_degrees) - (angle_degrees / 2)
+  spin_target = center_of_destination + random_offset
+%>
+window.spinDegreeTarget = <%= spin_target %>;
+window.spinComplete = function() {
+  $('#result').css('display', 'block');
+  setTimeout(function() {
+    window.location = '<%= @destination.url %>';
+  }, 1250);
+}
+</script>
+
+<h1>Welcome to the NYCTO Wheel of Zoom. Press SPIN to be sent to a Zoom room
+to commune with a few of your fellow club members.</h1>
+
+<div id="wrapper">
+  <div id="wheel" class="spinnable">
+      <div id="inner-wheel">
+        <%= for destination <- @destinations do %>
+          <div class="sec"><span><%= destination.name %></span></div>
+        <% end %>
+      </div>       
+      
+      <div id="spin">
+          <div id="inner-spin"></div>
+      </div>
+      
+      <div id="shine"></div>
+  </div>
+
+
+  <div id="result">
+    You will be redirected momentarily to <a href="<%= @destination.url %>"><%= @destination.url %></a>
+  </div>
+</div>
+
