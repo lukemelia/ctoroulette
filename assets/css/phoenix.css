@@ -134,9 +134,9 @@ body{
 #wheel:before{
 	content:'';
 	position:absolute;
-	border:4px solid rgba(0,0,0,0.1);
-	width:99%;
-	height:99%;
+	border:8px solid rgba(255,255,255,0.1);
+	width:100%;
+	height:100%;
 	border-radius:50%;
 	z-index:1000;	
 }
@@ -281,8 +281,8 @@ body{
   }
 
   50%{
-    transform: rotate(7deg);
-    -webkit-transform: rotate(7deg);
+    transform: rotate(4deg);
+    -webkit-transform: rotate(4deg);
   }
 }
 
@@ -293,12 +293,12 @@ body{
   }
 
   50%{
-    transform: rotate(7deg);
-    -webkit-transform: rotate(7deg);
+    transform: rotate(4deg);
+    -webkit-transform: rotate(4deg);
   }
 }
 
 .spin {
-  -webkit-animation: hh 0.1s; /* Chrome, Safari, Opera */
-    animation: hh 0.1s;
+  -webkit-animation: hh 100ms; /* Chrome, Safari, Opera */
+    animation: hh 100ms;
 }
