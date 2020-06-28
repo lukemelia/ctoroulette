@@ -1,6 +1,7 @@
 <style>
 <%
-  colors = ["#16a085", "#2980b9", "#34495e", "#f39c12", "#d35400", "#c0392b", "#800080"]
+  colors = ["#16a085","#2950b9","#34495e","#f39c12","#d35400","#c0392b","#800080","#a9cef4","#955e42","#e54b4b", "#EA7AF4"]
+
   destination_count = Enum.count(@destinations)
   angle_degrees = 360 / destination_count
   angle_radians = angle_degrees * :math.pi / 180
