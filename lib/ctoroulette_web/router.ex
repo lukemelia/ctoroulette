@@ -13,12 +13,29 @@ defmodule CtorouletteWeb.Router do
     plug :accepts, ["json"]
   end
 
+  import Plug.BasicAuth
+  
+  pipeline :protected do
+    # if System.get_env("ADMIN_USERNAME") || System.get_env("ADMIN_PASSWORD") do
+    plug :basic_auth, Application.compile_env(:ctoroulette, :basic_auth)
+    # end
+  end
+
   scope "/", CtorouletteWeb do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+
+  scope "/admin", CtorouletteWeb do
+    pipe_through [:browser, :protected]
+  
     resources "/destinations", DestinationController
   end
+  
+  import Redirect
+  redirect "/admin/", "/admin/destinations", :temporary
 
   # Other scopes may use custom stacks.
   # scope "/api", CtorouletteWeb do
@@ -32,12 +49,10 @@ defmodule CtorouletteWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
+  import Phoenix.LiveDashboard.Router
 
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: CtorouletteWeb.Telemetry
-    end
+  scope "/" do
+    pipe_through [:browser, :protected]
+    live_dashboard "/dashboard", metrics: CtorouletteWeb.Telemetry
   end
 end

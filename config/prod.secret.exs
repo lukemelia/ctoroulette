@@ -39,3 +39,21 @@ config :ctoroulette, CtorouletteWeb.Endpoint,
 #
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.
+
+http_basic_auth_username =
+  System.get_env("ADMIN_USERNAME") ||
+    raise """
+    environment variable ADMIN_USERNAME is missing.
+    """
+
+http_basic_auth_password =
+  System.get_env("ADMIN_PASSWORD") ||
+    raise """
+    environment variable ADMIN_PASSWORD is missing.
+    """
+
+# Set basic auth from environment variables
+config :ctoroulette, basic_auth: [
+  username: http_basic_auth_username,
+  password: http_basic_auth_password,
+]
