@@ -265,6 +265,12 @@ body{
   opacity:0.1;	
 }
 
+#result {
+  margin-top: 50px;
+  color: #666;
+  text-align: center;
+  display: none;
+}
 
 
 /*ANIMATION*/

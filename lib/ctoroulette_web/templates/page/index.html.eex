@@ -106,10 +106,9 @@ to commune with a few of your fellow club members.</h1>
       
       <div id="shine"></div>
   </div>
+</div>
 
-
-  <div id="result">
-    You will be redirected momentarily to <a href="<%= @destination.url %>"><%= @destination.url %></a>
-  </div>
+<div id="result">
+  You will be redirected momentarily to <a href="<%= @destination.url %>"><%= @destination.url %></a>
 </div>
 
