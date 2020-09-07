@@ -225,6 +225,9 @@ body{
 	background: radial-gradient(ellipse at center,  rgba(255,255,255,1) 0%,rgba(234,234,234,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eaeaea',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */	
 }
+#inner-spin {
+  --logo-filter: none;
+}
 
 #inner-spin:after {
 	content:"";
@@ -235,7 +238,8 @@ body{
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-	display:block;
+  display:block;
+  filter: var(--logo-filter);
 }
 
 #spin:active #inner-spin{

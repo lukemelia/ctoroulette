@@ -81,6 +81,7 @@ h1 {
   random_offset = (:rand.uniform() * angle_degrees) - (angle_degrees / 2)
   spin_target = center_of_destination + random_offset
 %>
+window.spinColors = [<%= raw Enum.join(Enum.map(colors, fn x -> "'#{x}'" end), ", ") %>];
 window.spinDegreeTarget = <%= spin_target %>;
 window.spinComplete = function() {
   $('#result').css('display', 'block');

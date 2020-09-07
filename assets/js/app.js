@@ -18,13 +18,16 @@ import "phoenix_html"
 var degree = 1800;
 //number of clicks = 0
 var clicks = 0;
+var lastPositionSoundAt;
 const SPIN_DURATION = 6 * 1000;
 
 $(document).ready(function(){
   /*WHEEL SPIN FUNCTION*/
   let innerWheelEl = $('#inner-wheel')[0];
+  let innerSpinEl = $('#inner-spin')[0];
   let $wheel = $('#wheel');
   let choiceCount = innerWheelEl.querySelectorAll('.sec').length;
+  let choiceColors = window.spinColors.slice(0,choiceCount).reverse();
 	$('#spin').click(function(){
     if (!$wheel.hasClass('spinnable')) {
       return;
@@ -52,10 +55,18 @@ $(document).ready(function(){
       }	
 
       let currentRotation = getCurrentRotation(innerWheelEl) - (360/choiceCount/2);
+      let sectionStart = Math.round(currentRotation / (360/choiceCount));
+      console.log(sectionStart);
       let distancePastSectionStart = currentRotation % (360/choiceCount);
       // console.log({ '360/choiceCount': 360/choiceCount, currentRotation, distancePastSectionStart });
-      if (distancePastSectionStart > 0 && distancePastSectionStart < 5) {
+      if (distancePastSectionStart > 0 && distancePastSectionStart < 4) {
         // console.log('==========');
+        if (lastPositionSoundAt !== sectionStart) {
+          wheelClickSound();
+          let color = choiceColors[Math.abs(sectionStart)];
+          innerSpinEl.style.setProperty('--logo-filter', `drop-shadow(1px 2px 3px ${color})`);
+          lastPositionSoundAt = sectionStart;
+        }
         $('#spin').addClass('spin');
         setTimeout(function () { 
           $('#spin').removeClass('spin');
@@ -84,4 +95,22 @@ function getCurrentRotation(el){
     return (angle < 0 ? angle + 360 : angle); //adding 360 degrees here when angle < 0 is equivalent to adding (2 * Math.PI) radians before
   }
   return 0;
+}
+
+function wheelClickSound() {
+  soundEffect(
+    170,       //frequency
+    0.03,         //attack
+    0.004,          //decay
+    "square",       //waveform
+    1.5,            //volume
+    0.3,          //pan
+    0,            //wait before playing
+    0.01,          //pitch bend amount
+    false,         //reverse
+    2,          //random pitch range
+    0.001,            //dissonance
+    null,//[0.005,0.025,0.48],    //echo array: [delay, feedback, filter]
+    null     //reverb array: [duration, decay, reverse?]
+  );
 }
